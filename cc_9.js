@@ -26,15 +26,18 @@ class Manager extends Employee{
     constructor(name, id, department, salary, teamSize){
         super(name, id, department, salary);
         this.teamSize = teamSize;
-    }
+    };
     getDetails(){
         return `Manager: ${this.name}, ID: ${this.id}, Department: ${this.department}, 
         Salary: $${this.salary}, Team Size: ${this.teamSize}`; // formatted string of employee details with team sizes 
-    }
+    };
     calculateBonus(){
-        return this.calculateAnnualSalary() * 0.10; // calculates 10% of the managers annual salary 
-    }
-}
+        return super.calculateAnnualSalary() * 0.10; // calculates 10% of the managers annual salary 
+    };
+    calculateAnnualSalary(){
+        return super.calculateAnnualSalary() + this.calculateBonus(); // calculates total annual salary 
+    };
+};
 const mgr1 = new Manager("John Smith", 201, "IT", 8000, 5);
 console.log(mgr1.getDetails());// Expected output: "Manager: John Smith, ID: 201, Department: IT, Salary: $8000, Team Size: 5"
 
@@ -55,11 +58,16 @@ class Company {
 
         });
     }
+    // Task 4: Implementing a Payroll System 
+    calculateTotalPayroll(){ // calculates the total payroll 
+        return this.employees.reduce((total, employee) => total + employee.calculateAnnualSalary(),0);
+    }
 }
 const company = new Company("TechCorp");
 company.addEmployee(emp1);
 company.addEmployee(mgr1);
 company.listEmployees();
-// Expected output:
-// "Employee: Alice Johnson, ID: 101, Department: Sales, Salary: $5000"
-// "Manager: John Smith, ID: 201, Department: IT, Salary: $8000, Team Size: 5"
+
+// Logged Task 4 
+console.log(company.calculateTotalPayroll()); 
+
